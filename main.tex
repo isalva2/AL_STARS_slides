@@ -2,6 +2,9 @@
 \usetheme{uic}
 \usepackage{amsfonts,amsmath,oldgerm,algorithm,algpseudocode}
 \usepackage[font=small,labelfont=bf]{caption} % Required for specifying captions to tables and figures
+\usepackage{booktabs,array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1\textwidth}} % ragged-right column, width as fraction of \textwidth
+\usepackage{pgfgantt}
 
 \newcommand{\hrefcol}[2]{\textcolor{uihteal}{\href{#1}{#2}}}
 \newcommand{\testcolor}[1]{\colorbox{#1}{\textcolor{#1}{test}}~\texttt{#1}}
@@ -9,8 +12,8 @@
 \newcommand{\figplaceholder}[3]{\fbox{\parbox[c][#2][c]{\dimexpr#1-2\fboxsep-2\fboxrule\relax}{\centering\small\textcolor{steelgray}{[Figure: #3]}}}}
 
 % Please see Section 18.1 of Beamer User Guide for all the options \usefonttheme provides
-\usefonttheme[onlymath]{serif}
-% \usefonttheme{serif} % use this if you would like Serif font throughout (and not just for math)
+% \usefonttheme[onlymath]{serif}
+\usefonttheme{serif} % use this if you would like Serif font throughout (and not just for math)
 
 
 \titlebackground*{assets/uic_lockup_blue.pdf}
@@ -60,7 +63,7 @@
 \item \textbf{Agency:} Illinois Department of Transportation (IDOT)
 \item \textbf{PI:} Sybil Derrible, PhD, UIC
 \item \textbf{Research Assistants:} Isaac Salvador, Fatemeh Allahakbari
-\item \textbf{Duration:} May 2026 -- 2029 % TODO: confirm end date (workplan 8/15/2029 vs. kickoff 5/29/2029)
+\item \textbf{Duration:} May 2026 -- July 2029
 \item \textbf{Budget:} \$400,000 (\$300K federal, \$100K cost share)
 \end{itemize}
 \end{frame}
@@ -78,7 +81,29 @@
 \end{itemize}
 \end{column}
 \begin{column}{0.45\textwidth}
-\figplaceholder{\textwidth}{0.55\textheight}{HTS sample rate over time}
+\captionof{table}{Overview of travel surveys for the United States and France}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllrr}
+\toprule
+Survey & Year & Region & Households & Trips \\
+\midrule
+NHTS & 2022 & US National & 27,290 & 127,544,707 \\
+NHTS & 2017 & US National & 129,696 & 118,208,250 \\
+NHTS & 2009 & US National & 150,147 & 113,101,330 \\
+NHTS & 2001 & US National & 66,038 & 277,203,000 \\
+\midrule
+EGT Paris & 2020 & \^{I}le-de-France & 4,800 & 35,700 \\
+EGT Paris & 2010 & \^{I}le-de-France & 18,021 & 143,508 \\
+EGT Paris & 2001 & \^{I}le-de-France & 10,478 & 81,836 \\
+\midrule
+My Daily Travel & 2019 & Northeastern Illinois & 12,392 & 110,091 \\
+Travel Tracker & 2008 & Northeastern Illinois & 10,552 & 159,856 \\
+CATS & 1990 & Northeastern Illinois & 12,246 & 162,755 \\
+\midrule
+EMD Lyon & 2015 & Lyon metropolitan area & 16,361 & 99,585 \\
+EMD Lyon & 2006 & Lyon metropolitan area & 11,229 & 77,350 \\
+\bottomrule
+\end{tabular}}
 \end{column}
 \end{columns}
 \end{frame}
@@ -128,35 +153,114 @@
 \begin{frame}{Timeline}
 \framesubtitle{We are here: October 2026}
 \centering
-\figplaceholder{0.9\textwidth}{0.6\textheight}{Gantt chart with ``we are here'' marker}
-% TODO: reconcile Task 2/3 dates between workplan and kickoff deck
+\begin{ganttchart}[
+  time slot format=isodate-yearmonth,
+  time slot unit=month,
+  x unit=0.26cm, y unit title=0.4cm, y unit chart=0.42cm,
+  vgrid={*1{black!15, thin}}, hgrid=false,
+  title/.append style={fill=uicblue, draw=white},
+  title height=1, title top shift=0,
+  title label font=\tiny\color{white},
+  bar label font=\tiny, bar label node/.append style={align=right},
+  bar/.append style={fill=uicblue, draw=white, line width=0.6pt},
+  bar height=1.0, bar top shift=0,
+  vrule/.append style={uicred, very thick},
+  vrule label font=\tiny\color{uicred}\bfseries,
+]{2026-05}{2029-07}
+\gantttitlecalendar{year, month=letter} \\
+\ganttbar{Task 1: Literature Review}{2026-05}{2027-04}
+\ganttbar{}{2028-01}{2028-04}
+\ganttbar{}{2029-01}{2029-04} \\
+% \ganttbar[bar/.append style={fill=chicagoblue}]{Task 1b: Auxiliary Literature Review}{2027-05}{2029-07} \\
+\ganttbar{Task 2: Architecture Development}{2026-09}{2027-12} \\
+\ganttbar{Task 3: Web Application Development}{2027-01}{2029-04} \\
+\ganttbar{Task 4: Evaluation and Update}{2027-04}{2027-07}
+\ganttbar{}{2028-01}{2028-04}
+\ganttbar{}{2028-12}{2029-04} \\
+\ganttbar{Task 5: Dissemination}{2028-07}{2029-07} \\
+\ganttbar[bar/.append style={fill=championsgold}]{Annual Reports and TRP/PI Meetings}{2027-06}{2027-06}
+\ganttbar[bar/.append style={fill=championsgold}]{}{2028-06}{2028-06}
+\ganttbar[bar/.append style={fill=championsgold}]{}{2029-06}{2029-06} \\
+\ganttbar[bar/.append style={fill=uicred}]{Quarterly Progress Reports}{2026-09}{2026-09}
+\foreach \q in {2026-12,2027-03,2027-06,2027-09,2027-12,2028-03,2028-06,2028-09,2028-12,2029-03,2029-06}{%
+  \ganttbar[bar/.append style={fill=uicred}]{}{\q}{\q}}
+\\
+\ganttbar[bar/.append style={fill=uicred}]{Final Report and Editing}{2029-05}{2029-07}
+\ganttvrule{We are here}{2026-10}
+\end{ganttchart}
 \end{frame}
 
 
 % ===================== Task 1 =====================
 
 \begin{frame}{Task 1: Literature Review}
-\framesubtitle{Scope and method}
+\framesubtitle{Scope}
 \begin{columns}
-\begin{column}{0.55\textwidth}
+\begin{column}{0.38\textwidth}
 \begin{itemize}
-\item State-of-the-art and state-of-practice of agentic AI
-\item Academic publications and industry applications
-\item Search strategy: TODO
-\item Papers screened / included: TODO
+\item \textbf{Focus:} LLMs and agents as simulated survey respondents
+\item \textbf{Sources:} peer-reviewed and preprint, 2023--2026
+\item \textbf{Status:} 6 core papers, 18 foundational references
 \end{itemize}
 \end{column}
-\begin{column}{0.45\textwidth}
-\figplaceholder{\textwidth}{0.55\textheight}{Search/screening flow}
+\begin{column}{0.62\textwidth}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llr}
+\toprule
+Category & References & $n$ \\
+\midrule
+\multicolumn{3}{l}{\textit{Core}} \\
+Synthetic survey respondents & Salvador 2026; Zhao 2026; Suh 2025 & 3 \\
+Persona grounding & Park 2026 & 1 \\
+Fairness and bias & Abeliuk 2026 & 1 \\
+Agent evaluation & Nguyen 2026 & 1 \\
+\midrule
+\multicolumn{3}{l}{\textit{Foundational}} \\
+Agent frameworks and surveys & Acharya 2025; Park 2023; Wang 2023; Salvador 2026 & 4 \\
+Profile (role-play) & Wang 2024 (RoleLLM) & 1 \\
+Memory & Lewis 2021 (RAG) & 1 \\
+Planning and reasoning & Yao 2023; Wang 2023; Shinn 2023 & 3 \\
+Action and tools & Wang 2023; Qian 2024; Nakano 2022 & 3 \\
+Travel surveys and modeling & Esekhaigbe 2024; Wang 2023; H\"{o}rl 2021; & 6 \\
+ & MATSim; Auld 2016; Derrible 2019 & \\
+\bottomrule
+\end{tabular}}
 \end{column}
 \end{columns}
+\end{frame}
+
+
+\begin{frame}{Core Literature}
+\tiny
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.0}
+\vspace*{2ex}
+\begin{tabular}{L{0.15}L{0.12}L{0.13}L{0.14}L{0.14}L{0.228}}
+\toprule
+Paper & Domain & Persona grounding & Method & Evaluation & Key finding \\
+\midrule
+\multicolumn{6}{l}{\textit{Synthetic survey respondents}} \\
+Salvador et al.\ (TRR 2026) & Travel (Chicago, Lyon) & Synthetic socio-demographics & Agentic: role-play, tools, survey engine & HTS distributions; LLM-as-a-judge & Mid/small models best match HTS; larger models more natural \\
+Zhao et al.\ (arXiv 2026), LLM-S$^3$ & Sociology (11 datasets) & Partial/full attributes & Zero/few-shot prompting & Benchmark: GPT-3.5/4, LLaMA 3 & Structured output fails often; context and prompts drive fidelity \\
+Suh et al.\ (ACL 2025), SubPOP & Public opinion & Subpopulation descriptions & Fine-tuning (70K pairs) & Response distribution match & Up to 46\% smaller LLM--human gap; generalizes to unseen surveys \\
+\midrule
+\multicolumn{6}{l}{\textit{Persona grounding}} \\
+Park et al.\ (arXiv 2026) & Social science ($n$=1,052) & Interviews and/or surveys & Generative agents & GSS vs.\ test-retest consistency & 83--86\% vs.\ 74\% (demographics only); smaller group disparities \\
+\midrule
+\multicolumn{6}{l}{\textit{Fairness and bias}} \\
+Abeliuk et al.\ (EPJ Data Sci.\ 2026) & Public opinion (US, Chile) & Socio-demographics & Prompting & Accuracy and fairness metrics & Better on US data (US-centric training); bias drivers differ by country \\
+\midrule
+\multicolumn{6}{l}{\textit{Agent evaluation}} \\
+Nguyen et al.\ (KDD 2026), ReplicatorBench & Social/behavioral science & -- & Agentic: web search, sandboxed code & 3-stage replication benchmark & Agents run experiments well but struggle to find new data \\
+\bottomrule
+\end{tabular}
 \end{frame}
 
 
 \begin{frame}{Organizing Framework}
 \framesubtitle{Four-module agent taxonomy (Wang et al., 2024)}
 \begin{columns}
-\begin{column}{0.45\textwidth}
+\begin{column}{0.3\textwidth}
 \begin{itemize}
 \item \textbf{Profile:} identity and objectives
 \item \textbf{Memory:} experience and context
@@ -164,75 +268,147 @@
 \item \textbf{Action:} interface with environment
 \end{itemize}
 \end{column}
-\begin{column}{0.55\textwidth}
-\figplaceholder{\textwidth}{0.6\textheight}{Agent modules diagram}
+\begin{column}{0.7\textwidth}
+\centering
+\includegraphics[width=\textwidth]{plots/wang_et_al_framework.png}
+
+{\tiny Source: Wang et al., \textit{A Survey on Large Language Model Based Autonomous Agents}, Frontiers of Computer Science, 2024.}
 \end{column}
 \end{columns}
+\end{frame}
+
+
+\begin{frame}{Starting Point: Prior Work}
+\framesubtitle{Salvador et al., TRR 2026}
+\small
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item Proof of concept: Chicago (My Daily Travel) and Lyon (EMD)
+\item AL-STARS scales and extends it
+\end{itemize}
+\end{column}
+\begin{column}{0.55\textwidth}
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item \textbf{Profile:} population synthesis + persona
+\item \textbf{Memory:} conversation history
+\item \textbf{Planning:} reasoning before tool use
+\item \textbf{Action:} response tools + event engine
+\end{itemize}
+\end{column}
+\end{columns}
+\vfill
+\centering
+\includegraphics[width=0.95\textwidth]{plots/Large Language Model–Enhanced General Transportation Agent Framework for Human Mobility.png}
 \end{frame}
 
 
 \begin{frame}{Agent Profile}
-\framesubtitle{Persona generation}
-\begin{columns}
-\begin{column}{0.55\textwidth}
-\begin{itemize}
-\item Socio-demographic attributes via population synthesis
-\item Psychological and social factors via role-playing
-\item Key findings: TODO
-\end{itemize}
-\end{column}
-\begin{column}{0.45\textwidth}
-\figplaceholder{\textwidth}{0.55\textheight}{TODO}
-\end{column}
-\end{columns}
+\framesubtitle{Literature vs.\ prior work}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{L{0.35}L{0.30}L{0.25}}
+\toprule
+Literature & TRR 2026 & Gap \\
+\midrule
+Contents: demographic, personality, social (Wang 2024) & Demographic only (PUMS person variables) & No attitudes or household context \\
+Generation: handcrafted, LLM-written, aligned to data & Aligned to data (PopulationSim) & Chicago only \\
+Grounding beats demographics only: 83--86\% vs.\ 74\% (Park 2026) & Responses too concentrated; stereotyped language & Profile richness untested \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+
+\begin{frame}{Agent Profile}
+\framesubtitle{AL-STARS design}
+\begin{enumerate}
+\item \textbf{Demographic:} statewide, adds household variables
+\item \textbf{Spatial:} tract, urban/rural, transit access
+\item \textbf{Attitudes and personality:} sampled conditional on demographics
+\item \textbf{Behavioral backstory:} optional
+\end{enumerate}
+\vspace{1ex}
+\textbf{Open questions:} leakage, individual vs.\ household, structured vs.\ narrative format
 \end{frame}
 
 
 \begin{frame}{Memory}
-\begin{columns}
-\begin{column}{0.55\textwidth}
+\begin{columns}[t]
+\begin{column}{0.33\textwidth}
+\textbf{Literature}
 \begin{itemize}
-\item Short-term: prompt context
-\item Long-term: external store via retrieval (RAG)
-\item Behavioral consistency over time
-\item Key findings: TODO
+\item Short-term context + long-term retrieval (RAG)
+\item Reflection (Generative Agents, Reflexion)
 \end{itemize}
 \end{column}
-\begin{column}{0.45\textwidth}
-\figplaceholder{\textwidth}{0.55\textheight}{TODO}
+\begin{column}{0.33\textwidth}
+\textbf{TRR 2026}
+\begin{itemize}
+\item Conversation history in context window only
+\item Self-consistency failures (carpool, then drives alone)
+\end{itemize}
+\end{column}
+\begin{column}{0.33\textwidth}
+\textbf{AL-STARS}
+\begin{itemize}
+\item Structured memory of stated facts
+\item Long-term memory for multi-day travel diaries
+\end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
 
 \begin{frame}{Planning and Reasoning}
-\begin{columns}
-\begin{column}{0.55\textwidth}
+\begin{columns}[t]
+\begin{column}{0.33\textwidth}
+\textbf{Literature}
 \begin{itemize}
-\item Chain-of-Thought for simple reasoning
-\item Multi-path reasoning (Tree of Thoughts, CoT-SC)
-\item Feedback: environment signals, cross-agent interaction
-\item Key findings: TODO
+\item CoT, Tree of Thoughts, CoT-SC
+\item Feedback loops (ReAct, Voyager)
 \end{itemize}
 \end{column}
-\begin{column}{0.45\textwidth}
-\figplaceholder{\textwidth}{0.55\textheight}{TODO}
+\begin{column}{0.33\textwidth}
+\textbf{TRR 2026}
+\begin{itemize}
+\item Free-text reasoning before tool selection
+\item No explicit planner
+\end{itemize}
+\end{column}
+\begin{column}{0.33\textwidth}
+\textbf{AL-STARS}
+\begin{itemize}
+\item Full-day activity and trip planning
+\item Coherent travel-diary responses
+\end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
 
 \begin{frame}{Action and Environment}
-\begin{columns}
-\begin{column}{0.55\textwidth}
+\begin{columns}[t]
+\begin{column}{0.33\textwidth}
+\textbf{Literature}
 \begin{itemize}
-\item Text-based tools and APIs
-\item Multi-agent settings
-\item Key findings: TODO
+\item Tools and APIs (WebGPT)
+\item Multi-agent settings (ChatDev)
 \end{itemize}
 \end{column}
-\begin{column}{0.45\textwidth}
-\figplaceholder{\textwidth}{0.55\textheight}{TODO}
+\begin{column}{0.33\textwidth}
+\textbf{TRR 2026}
+\begin{itemize}
+\item Three response tools: single, multiple, numeric
+\item Event engine from CMAP CATI script
+\end{itemize}
+\end{column}
+\begin{column}{0.33\textwidth}
+\textbf{AL-STARS}
+\begin{itemize}
+\item IDOT survey materials drive event engine
+\item Grounding tools (travel time, transit lookup)
+\item Household agents (optional)
+\end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
@@ -241,15 +417,25 @@
 \begin{frame}{LLMs as Survey Respondents}
 \framesubtitle{Behavioral fidelity}
 \begin{columns}
-\begin{column}{0.55\textwidth}
+\begin{column}{0.42\textwidth}
 \begin{itemize}
-\item How well do LLM agents replicate human responses?
-\item Evaluation metrics and benchmarks: TODO
-\item Known limitations: TODO
+\item \textbf{Literature:}
+\begin{itemize}
+\item Context and prompts drive fidelity (Zhao 2026)
+\item Fine-tuning narrows LLM--human gap (Suh 2025)
+\item Richer grounding improves accuracy (Park 2026)
+\end{itemize}
+\item \textbf{TRR 2026:}
+\begin{itemize}
+\item Small/mid models best match distributions
+\item Larger models more coherent and natural
+\end{itemize}
 \end{itemize}
 \end{column}
-\begin{column}{0.45\textwidth}
-\figplaceholder{\textwidth}{0.55\textheight}{TODO}
+\begin{column}{0.58\textwidth}
+\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{plots/TRR2026_entropy.png}
+
+{\tiny Normalized entropy of survey responses by model (Chicago).}
 \end{column}
 \end{columns}
 \end{frame}
@@ -257,100 +443,64 @@
 
 \begin{frame}{Safety, Ethics, and Policy}
 \begin{itemize}
-\item Bias and representativeness: TODO
-\item Privacy and data governance: TODO
-\item Transparency and explainability: TODO
-\item Deployment best practices: TODO
+\item \textbf{Literature:} bias varies by country and attribute (Abeliuk 2026)
+\item \textbf{TRR 2026:} stereotyped language in small models (``Oh, honey'')
+\item \textbf{AL-STARS:}
+\begin{itemize}
+\item Counterfactual fairness checks
+\item No identity markers in profiles
+\item Profiles inspectable by IDOT users
+\end{itemize}
 \end{itemize}
 \end{frame}
 
 
 \begin{frame}{Gaps and Remaining Work}
-\begin{columns}
-\begin{column}{0.5\textwidth}
+\begin{columns}[t]
+\begin{column}{0.42\textwidth}
 \textbf{Gaps identified}
 \begin{itemize}
-\item TODO
-\item TODO
+\item Profile richness beyond demographics
+\item Consistency across long interactions
+\item Statewide (rural, downstate) coverage
+\item Measuring bias in synthetic data
 \end{itemize}
 \end{column}
-\begin{column}{0.5\textwidth}
+\begin{column}{0.58\textwidth}
 \textbf{Remaining (through Apr 2027)}
 \begin{itemize}
-\item TODO
-\item Auxiliary review continues through project
+\item Formal search protocol; expand core set
+\item State-of-practice: industry deployments, open-weight models
+\item Travel-behavior LLM studies; LLM-as-a-judge reliability
+\item Policy, safety, and human--AI interaction
+\item Report: data gaps and requirements for Tasks 2--3
 \end{itemize}
+\vspace{1ex}
+\textit{Auxiliary review continues through project}
 \end{column}
 \end{columns}
 \end{frame}
 
 
-% ===================== Task 2 =====================
-
-\begin{frame}{Task 2: Architecture Development}
-\framesubtitle{Objectives}
-\begin{itemize}
-\item LLM agents as simulated individuals from Illinois socio-demographic data
-\item Four-module architecture: profile, memory, planning, action
-\item Focus on behavioral fidelity over economic/heuristic assumptions
-\item Success criteria: TODO
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}{Proposed AL-STARS Architecture}
-\centering
-\figplaceholder{0.9\textwidth}{0.65\textheight}{AL-STARS framework (Salvador et al., TRR 2026)}
-\end{frame}
-
-
-\begin{frame}{Synthetic Population Pipeline}
-\begin{columns}
+\begin{frame}{Evaluation and Infrastructure}
+\begin{columns}[t]
 \begin{column}{0.5\textwidth}
+\textbf{Evaluation}
 \begin{itemize}
-\item Census / ACS PUMS for socio-demographics
-\item Travel data: CMAP My Daily Travel, NHTS
-\item Population synthesis approach: TODO
+\item Statistical comparison against past HTS
+\item Behavioral fidelity of individual responses
+\item Scenario testing (e.g., preferences, hypothetical questions)
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
-\figplaceholder{\textwidth}{0.6\textheight}{Data pipeline}
-\end{column}
-\end{columns}
-\end{frame}
-
-
-\begin{frame}{Survey Conversation Design}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{itemize}
-\item Survey administrator agent $\leftrightarrow$ respondent agent
-\item Data collection hidden from the respondent
-\item Survey materials and question flow: TODO
-\end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-\figplaceholder{\textwidth}{0.6\textheight}{Example conversation}
-\end{column}
-\end{columns}
-\end{frame}
-
-
-\begin{frame}{Evaluation Plan}
-\begin{itemize}
-\item Statistical comparison against past HTS: TODO
-\item Behavioral fidelity of individual responses: TODO
-\item Scenario testing (e.g., extreme weather, pandemics)
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}{Infrastructure}
+\textbf{Infrastructure}
 \begin{itemize}
 \item LLM-agnostic framework
-\item Model selection: TODO
+\item Model selection
 \item GPU server for fine-tuning and inference
 \end{itemize}
+\end{column}
+\end{columns}
 \end{frame}
 
 
@@ -358,10 +508,11 @@
 
 \begin{frame}{Upcoming Milestones}
 \begin{itemize}
-\item Nov 2026: Quarterly progress report
-\item Early 2027: Task 3 (web application) begins % TODO: confirm Jan vs. Apr 2027
-\item Apr 2027: Primary literature review complete
-\item Jun 2027: Annual progress report and TRP meeting
+\item Dec 2026: Quarterly progress report
+\item Jan 2027: Task 3 (web application) begins
+\item Mar 2027: Quarterly progress report
+\item Apr 2027: Literature review first phase complete; Task 4 evaluation round 1 begins
+\item Jun 2027: Annual progress report and TRP/PI meeting
 \end{itemize}
 \end{frame}
 

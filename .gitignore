@@ -1,2 +1,15 @@
 CLAUDE.md
 ref/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.xdv
+*.nav
+*.out
+*.snm
+*.toc
+*.synctex.gz
+main.pdf
